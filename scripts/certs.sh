@@ -375,7 +375,7 @@ add_certs_to_secret() {
   else
     info "USE LOOP ON NAMESPACES ${SECRET_NAMESPACES}"
       
-    for SECRET_NAMESPACE in ${SECRET_NAMESPACES}; do
+    for SECRET_NAMESPACE in $(echo "${SECRET_NAMESPACES}" | jq -r '.[]'); do
       
       info "ADD FOR NAMESPACE ${SECRET_NAMESPACE}"
 
@@ -475,8 +475,7 @@ add_conf_to_secret() {
   else
     info "USE LOOP ON NAMESPACES ${SECRET_NAMESPACES}"
 
-    for SECRET_NAMESPACE in ${SECRET_NAMESPACES}; do
-    
+    for SECRET_NAMESPACE in $(echo "${SECRET_NAMESPACES}" | jq -r '.[]'); do
       info "ADD FOR NAMESPACE ${SECRET_NAMESPACE}"
     
       local STATUS_CODE=""
