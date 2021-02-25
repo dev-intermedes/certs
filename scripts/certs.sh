@@ -373,7 +373,12 @@ add_certs_to_secret() {
         info "Certs not added"
       fi
   else
+    info "USE LOOP ON NAMESPACES ${SECRET_NAMESPACES}"
+      
     for SECRET_NAMESPACE in ${SECRET_NAMESPACES}; do
+      
+      info "ADD FOR NAMESPACE ${SECRET_NAMESPACE}"
+
       local STATUS_CODE=""
       if [ "${STATUS_CODE_CHECKER}" != "200" ]; then
         info "Adding certs"
@@ -468,7 +473,12 @@ add_conf_to_secret() {
         info "Conf not added"
       fi
   else
+    info "USE LOOP ON NAMESPACES ${SECRET_NAMESPACES}"
+
     for SECRET_NAMESPACE in ${SECRET_NAMESPACES}; do
+    
+      info "ADD FOR NAMESPACE ${SECRET_NAMESPACE}"
+    
       local STATUS_CODE=""
       if [ "${IS_SECRET_CONF_ALREADY_EXISTS}" = "false" ]; then
         info "Adding conf"
