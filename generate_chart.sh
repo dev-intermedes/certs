@@ -26,7 +26,7 @@ sed -E -i '' "s/^(  tag:) .*$/\1 ${version}/g" certs/values.yaml
 
 helm package --debug --destination "${build_dir}" certs
 
-helm repo index "${build_dir}" --url "https://github.com/dev-intermedes/certs/${charts_dir}" --merge "${charts_dir}/index.yaml"
+helm repo index "${build_dir}" --url "https://dev-intermedes.github.io/certs/${charts_dir}" --merge "${charts_dir}/index.yaml"
 
 mv -f "${build_dir}/index.yaml" "${charts_dir}"
 mv -f "${build_dir}/"certs-*.tgz "${charts_dir}"

@@ -2,4 +2,4 @@ apiVersion: v1
 description: A Helm chart for managing Let's encrypt certificates
 name: certs
 version: 1.1.9
-icon: https://github.com/dev-intermedes/certs/icon.svg
+icon: https://dev-intermedes.github.io/certs/icon.svg

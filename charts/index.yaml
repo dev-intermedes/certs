@@ -8,7 +8,7 @@ entries:
     icon: https://github.com/dev-intermedes/certs/icon.svg
     name: certs
     urls:
-    - https://github.com/dev-intermedes/certs/charts/certs-1.1.9.tgz
+    - https://dev-intermedes.github.io/certs/charts/certs-1.1.9.tgz
     version: 1.1.9
   - apiVersion: v1
     created: "2021-02-25T10:45:38.352165+01:00"
@@ -17,7 +17,7 @@ entries:
     icon: https://github.com/dev-intermedes/certs/icon.svg
     name: certs
     urls:
-    - https://github.com/dev-intermedes/certs/charts/certs-1.1.8.tgz
+    - https://dev-intermedes.github.io/certs/charts/certs-1.1.8.tgz
     version: 1.1.8
   - apiVersion: v1
     created: "2020-09-06T21:32:04.004458+02:00"
