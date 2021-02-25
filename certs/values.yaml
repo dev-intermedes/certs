@@ -6,11 +6,11 @@ service:
   type: None
 
 image:
-  registry: mathnao
+  registry: eu.gcr.io/intermedes-283917
   repository: certs
   tag: 1.1.9
 
-schedule: "0 0,12 * * *"
+schedule: '0 0,12 * * *'
 
 backoffLimit: 1
 
@@ -36,6 +36,6 @@ demo:
     port: 8080
   secretName: demo-ingress-cert
   hosts:
-  - "example.com"
+    - 'example.com'
   ingress:
     annotations: {}
