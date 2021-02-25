@@ -2,9 +2,18 @@ apiVersion: v1
 entries:
   certs:
   - apiVersion: v1
-    created: "2021-02-25T12:17:59.898999+01:00"
+    created: "2021-02-25T12:41:56.603833+01:00"
     description: A Helm chart for managing Let's encrypt certificates
-    digest: 968e4be1897780abf5537b289eb50e232102f6af2d500ac0a8819f913c5eb9af
+    digest: e0321c6c96025cce284417ee847eabde6bbb86f8c400a87fe119a14092bf912e
+    icon: https://dev-intermedes.github.io/certs/icon.svg
+    name: certs
+    urls:
+    - https://dev-intermedes.github.io/certs/charts/certs-1.1.11.tgz
+    version: 1.1.11
+  - apiVersion: v1
+    created: "2021-02-25T12:41:54.126614+01:00"
+    description: A Helm chart for managing Let's encrypt certificates
+    digest: 98f3f54bd838fff41bfbe09ec40839cadcb374a68fe9a483880466ff326221e5
     icon: https://dev-intermedes.github.io/certs/icon.svg
     name: certs
     urls:
@@ -125,4 +134,4 @@ entries:
     urls:
     - https://math-nao.github.io/certs/charts/certs-1.0.0.tgz
     version: 1.0.0
-generated: "2021-02-25T12:17:59.897144+01:00"
+generated: "2021-02-25T12:41:56.603025+01:00"
