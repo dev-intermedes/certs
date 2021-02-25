@@ -45,9 +45,6 @@ K8S_API_URI_NAMESPACE="namespaces/${NAMESPACE}"
 if [ "${ACME_MANAGE_ALL_NAMESPACES}" = "true" ]; then
   K8S_API_URI_NAMESPACE=""
 fi
-if [ "${SECRET_NAMESPACES}" = "" ]; then
-  SECRET_NAMESPACES[0] = ${NAMESPACE}
-fi
 
 verbose() {
   echo "$@"
@@ -358,21 +355,42 @@ add_certs_to_secret() {
 
   debug "Status code checker: ${STATUS_CODE_CHECKER}"
 
-  local STATUS_CODE=""
-  if [ "${STATUS_CODE_CHECKER}" != "200" ]; then
-    info "Adding certs"
-    STATUS_CODE=$(k8s_api_call "POST" "/api/v1/namespaces/${CERT_NAMESPACE}/secrets" --data "@${SECRET_FILE}" 2>/dev/null)
-  else
-    info "Updating certs"
-    STATUS_CODE=$(k8s_api_call "PUT" "/api/v1/namespaces/${CERT_NAMESPACE}/secrets/${CERTS_SECRET_NAME}" --data "@${SECRET_FILE}" 2>/dev/null)
-  fi
+  if [ "${SECRET_NAMESPACES}" = "" ]; then
+      local STATUS_CODE=""
+      if [ "${STATUS_CODE_CHECKER}" != "200" ]; then
+        info "Adding certs"
+        STATUS_CODE=$(k8s_api_call "POST" "/api/v1/namespaces/${CERT_NAMESPACE}/secrets" --data "@${SECRET_FILE}" 2>/dev/null)
+      else
+        info "Updating certs"
+        STATUS_CODE=$(k8s_api_call "PUT" "/api/v1/namespaces/${CERT_NAMESPACE}/secrets/${CERTS_SECRET_NAME}" --data "@${SECRET_FILE}" 2>/dev/null)
+      fi
 
-  debug "Status code: ${STATUS_CODE}"
+      debug "Status code: ${STATUS_CODE}"
 
-  if [ "${STATUS_CODE}" = "200" -o "${STATUS_CODE}" = "201" ]; then
-    info "Certs sucessfully added"
+      if [ "${STATUS_CODE}" = "200" -o "${STATUS_CODE}" = "201" ]; then
+        info "Certs sucessfully added"
+      else
+        info "Certs not added"
+      fi
   else
-    info "Certs not added"
+    for SECRET_NAMESPACE in ${SECRET_NAMESPACES}; do
+      local STATUS_CODE=""
+      if [ "${STATUS_CODE_CHECKER}" != "200" ]; then
+        info "Adding certs"
+        STATUS_CODE=$(k8s_api_call "POST" "/api/v1/namespaces/${SECRET_NAMESPACE}/secrets" --data "@${SECRET_FILE}" 2>/dev/null)
+      else
+        info "Updating certs"
+        STATUS_CODE=$(k8s_api_call "PUT" "/api/v1/namespaces/${SECRET_NAMESPACE}/secrets/${CERTS_SECRET_NAME}" --data "@${SECRET_FILE}" 2>/dev/null)
+      fi
+
+      debug "Status code: ${STATUS_CODE}"
+
+      if [ "${STATUS_CODE}" = "200" -o "${STATUS_CODE}" = "201" ]; then
+        info "Certs sucessfully added"
+      else
+        info "Certs not added"
+      fi
+    done
   fi
 
   rm -f "${SECRET_FILE}"
@@ -432,24 +450,43 @@ add_conf_to_secret() {
 
   echo "${SECRET_JSON}" > "${SECRET_FILE}"
 
-  for SECRET_NAMESPACE in ${SECRET_NAMESPACES}; do
-    local STATUS_CODE=""
-    if [ "${IS_SECRET_CONF_ALREADY_EXISTS}" = "false" ]; then
-      info "Adding conf"
-      STATUS_CODE=$(k8s_api_call "POST" "/api/v1/namespaces/${SECRET_NAMESPACE}/secrets" --data "@${SECRET_FILE}" 2>/dev/null)
-    else
-      info "Updating conf"
-      STATUS_CODE=$(k8s_api_call "PUT" "/api/v1/namespaces/${SECRET_NAMESPACE}/secrets/${CONF_SECRET_NAME}" --data "@${SECRET_FILE}" 2>/dev/null)
-    fi
+  if [ "${SECRET_NAMESPACES}" = "" ]; then
+      local STATUS_CODE=""
+      if [ "${IS_SECRET_CONF_ALREADY_EXISTS}" = "false" ]; then
+        info "Adding conf"
+        STATUS_CODE=$(k8s_api_call "POST" "/api/v1/namespaces/${CERT_NAMESPACE}/secrets" --data "@${SECRET_FILE}" 2>/dev/null)
+      else
+        info "Updating conf"
+        STATUS_CODE=$(k8s_api_call "PUT" "/api/v1/namespaces/${CERT_NAMESPACE}/secrets/${CONF_SECRET_NAME}" --data "@${SECRET_FILE}" 2>/dev/null)
+      fi
 
-    debug "Status code: ${STATUS_CODE}"
+      debug "Status code: ${STATUS_CODE}"
 
-    if [ "${STATUS_CODE}" = "200" -o "${STATUS_CODE}" = "201" ]; then
-      info "Conf sucessfully added"
-    else
-      info "Conf not added"
-    fi
-  done
+      if [ "${STATUS_CODE}" = "200" -o "${STATUS_CODE}" = "201" ]; then
+        info "Conf sucessfully added"
+      else
+        info "Conf not added"
+      fi
+  else
+    for SECRET_NAMESPACE in ${SECRET_NAMESPACES}; do
+      local STATUS_CODE=""
+      if [ "${IS_SECRET_CONF_ALREADY_EXISTS}" = "false" ]; then
+        info "Adding conf"
+        STATUS_CODE=$(k8s_api_call "POST" "/api/v1/namespaces/${SECRET_NAMESPACE}/secrets" --data "@${SECRET_FILE}" 2>/dev/null)
+      else
+        info "Updating conf"
+        STATUS_CODE=$(k8s_api_call "PUT" "/api/v1/namespaces/${SECRET_NAMESPACE}/secrets/${CONF_SECRET_NAME}" --data "@${SECRET_FILE}" 2>/dev/null)
+      fi
+
+      debug "Status code: ${STATUS_CODE}"
+
+      if [ "${STATUS_CODE}" = "200" -o "${STATUS_CODE}" = "201" ]; then
+        info "Conf sucessfully added"
+      else
+        info "Conf not added"
+      fi
+    done
+  fi
 
   rm -f "${SECRET_FILE}"
 }
